@@ -1,9 +1,5 @@
 #!/bin/bash
 
-red='\033[0;31m'
-green='\033[0;32m'
-NC='\033[0m' # No Color
-
 ################################################################################
 # XCode CLI
 ################################################################################
@@ -47,6 +43,30 @@ done
 
 # Homebrew's Apps
 brew_apps=(
+  # Install GNU core utilities (those that come with macOS are outdated).
+  # Don’t forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+  coreutils
+  # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
+  findutils
+  
+  # Install more recent versions of some macOS tools.
+  vim --with-override-system-vi
+  grep
+  openssh
+  screen
+  
+  # Install some CTF tools; see https://github.com/ctfs/write-ups.
+  aircrack-ng
+  dns2tcp
+  fcrackzip
+  john
+  knock
+  nmap
+  sqlmap
+  
+  ack
+  #p7zip
+  
   # Caskroom repository
   caskroom/cask/brew-cask
 
@@ -80,11 +100,10 @@ brew_apps=(
   spectacle
 )
 
-for (( i = 0 ; i < ${#brew_apps[@]} ; i++ )) do 
+for (( i = 0 ; i < ${#brew_apps[@]} ; i++ )) do
   echo -e "${green}[+] Installing ${brew_apps[$i]} ${NC}"
   brew install ${brew_apps[$i]}
-done 
-
+done
 
 # Homebrew's Casks Apps
 cask_apps=(
@@ -93,13 +112,12 @@ cask_apps=(
   docker
   google-chrome
   firefox
-  opera
   virtualbox
   virtualbox-extension-pack
   #flux
   vlc
   #ubersicht
-  limechat 
+  limechat
   keka
   skype
   slack
@@ -133,9 +151,7 @@ git clone git://github.com/zsh-users/zsh-syntax-highlighting.git
 echo "plugins=(zsh-syntax-highlighting)" >> ~/.zshrc
 
 # Install dotfiles
-# git clone https://github.com/dotfiles.git ~/.dotfiles
-# cd ~/.dotfiles
-# script/bootstrap
+git clone https://github.com/fguisso/fuckfiles.git ~/.dotfiles
 
 
 # Source Autoenv
@@ -199,7 +215,7 @@ npm_apps=(
   nodemon 
   #alloy
   #ios-sim
-  # plato
+  #plato
 )
 
 echo -e "${green}[+] Updating NPM${NC}"
