@@ -1,0 +1,23 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"EditorConfig",
+		"HTML5",
+		"Insert Nums",
+		"MarkdownEditing",
+		"Material Theme",
+		"Material Theme - Appbar",
+		"Materialize",
+		"Package Control",
+		"Pug",
+		"SideBarEnhancements",
+		"Stylus",
+		"SublimeLinter",
+		"SublimeLinter-contrib-eslint",
+		"Vue Syntax Highlight"
+	]
+}
