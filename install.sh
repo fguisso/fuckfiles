@@ -4,7 +4,7 @@
 # XCode CLI
 ################################################################################
 xcode-select --install
-while [[ $(ps aux | grep -o "Installing Command Line")]]; do
+while [[ $(ps aux | grep -o "Installing Command Line")]] do
   wait
 done
 
@@ -12,7 +12,7 @@ done
 # Homebrew 
 ################################################################################
 # Checks for Homebrew, installs if we don't have it
-if test ! "$(which brew)"; then
+if test ! "$(which brew)" then
   echo -e "${green}[+] Installing Homebrew${NC}"
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else 
