@@ -93,8 +93,6 @@ brew_apps=(
   #htop
   httpie
   tree
-  wget
-  spectacle
 )
 
 for (( i = 0 ; i < ${#brew_apps[@]} ; i++ )) do
@@ -107,7 +105,7 @@ cask_apps=(
   dropbox
   keepassxc
   iterm2
-  sublime-text3
+  #sublime-text3
   docker
   google-chrome
   firefox
