@@ -4,7 +4,7 @@
 # XCode CLI
 ################################################################################
 xcode-select --install
-while [[ $(ps aux | grep -o "Installing Command Line")]] do
+while [[ $(ps aux | grep -o "Installing Command Line")]]; do
   wait
 done
 
@@ -36,7 +36,7 @@ brew_taps=(
   caskroom/versions
 )
 
-for (( i = 0 ; i < ${#brew_taps[@]} ; i++ )) do 
+for (( i = 0 ; i < ${#brew_taps[@]} ; i++ )); do 
   echo -e "${green}[+] Tapping ${brew_taps[$i]} repository${NC}"
   `brew tap ${brew_taps[$i]}`
 done
