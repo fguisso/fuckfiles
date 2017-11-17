@@ -107,6 +107,8 @@ done
 
 # Homebrew's Casks Apps
 cask_apps=(
+  dropbox
+  keepassxc
   iterm2
   sublime-text3
   docker
