@@ -1,19 +1,33 @@
 #!/bin/bash
 
+red='\033[0;31m'
+green='\033[0;32m'
+NC='\033[0m' # No Color
+
+bones='\xE2\x98\xA0'
+beer='\xF0\x9F\x8D\xBA'
+
 ################################################################################
 # XCode CLI
 ################################################################################
-xcode-select --install
+# Checks for xcode-select tools
+if type xcode-select >&- && xpath=$( xcode-select --print-path ) && test -d "${xpath}" && test -x "${xpath}";
+then
+  echo -e "${green} ${beer} xcode-select is installed!";
+else
+  echo -e "${red} ${bones} Installing the xcode-select tools";
+  xcode-select --install
+fi
 
 ################################################################################
 # Homebrew 
 ################################################################################
 # Checks for Homebrew, installs if we don't have it
-if test ! "$(which brew)" then
+if test ! "$(which brew)"; then
   echo -e "${green}[+] Installing Homebrew${NC}"
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else 
-  echo -e "${green}[+] Homebrew already installed${NC}"
+  echo -e "${red} ${bones} Homebrew already installed${NC}"
 fi
 
 # Checks if the ENV is okay
@@ -52,17 +66,11 @@ brew_apps=(
   openssh
   screen
   
-  # Install some CTF tools; see https://github.com/ctfs/write-ups.
-  aircrack-ng
-  dns2tcp
-  fcrackzip
-  john
-  knock
   nmap
   sqlmap
   
   ack
-  #p7zip
+  p7zip
   
   # Caskroom repository
   caskroom/cask/brew-cask
@@ -105,7 +113,7 @@ cask_apps=(
   dropbox
   keepassxc
   iterm2
-  #sublime-text3
+  sublime-text
   docker
   google-chrome
   firefox
@@ -122,7 +130,7 @@ cask_apps=(
   #kicad
   arduino
   appcleaner
-  #thunderbird
+  spark
 )
 
 for (( i = 0 ; i < ${#cask_apps[@]} ; i++ )) do 
@@ -149,7 +157,6 @@ echo "plugins=(zsh-syntax-highlighting)" >> ~/.zshrc
 
 # Install dotfiles
 git clone https://github.com/fguisso/fuckfiles.git ~/.dotfiles
-
 
 # Source Autoenv
 echo -e "${green}[+] Sourcing Autoenv into .zshrc${NC}"
@@ -186,7 +193,7 @@ done
 # Python
 ################################################################################
 # Update Python's pip
-echo -e "${green}[+] Updating pip${NC}"
+echo -e "${green} ${beer} Updating pip${NC}"
 pip install --upgrade pip setuptools
 
 
@@ -201,25 +208,21 @@ echo "export NVM_DIR=~/.nvm" >> ~/.zshrc
 echo "source $(brew --prefix nvm)/nvm.sh" >> ~/.zshrc
 
 # NVM Installs
-echo -e "${green}[+] Installing lastest Node using NVM${NC}"
+echo -e "${green} ${beer} Installing lastest Node using NVM${NC}"
 nvm install node
 nvm alias default node
 
 # Nodejs tools
 npm_apps=(
-  gulp 
-  #bower 
-  nodemon 
-  #alloy
-  #ios-sim
-  #plato
+  #gulp
+  nodemon
 )
 
-echo -e "${green}[+] Updating NPM${NC}"
+echo -e "${green} ${beer} Updating NPM${NC}"
 npm install -g npm
 
 for (( i = 0 ; i < ${#npm_apps[@]} ; i++ )) do 
-  echo -e "${green}[+] Installing ${npm_apps[$i]}${NC}"
+  echo -e "${green} ${beer} Installing ${npm_apps[$i]}${NC}"
   npm install -g ${npm_apps[$i]}
 done
 
@@ -228,7 +231,7 @@ done
 # Sublime Text
 ################################################################################
 # Install Sublime's Package Control
-cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/ || exit
+cd ~/Library/Application\ Support/Sublime\ Text/Packages/ || exit
 git clone git://github.com/wbond/sublime_package_control.git Package\ Control
 cd Package\ Control || exit
 git checkout python3
@@ -243,9 +246,9 @@ echo "export PATH=$PATH:/usr/local/opt/go/libexec/bin" >> ~/.zshrc
 ################################################################################
 # Clean up all the mess
 ################################################################################
-echo -e "${green}[+] Cleaning up Homebrew Packages${NC}"
+echo -e "${green} ${bones} Cleaning up Homebrew Packages${NC}"
 brew cleanup
 cask cleanup
 
-echo -e "${green}[+] Cleaning up RubyGems Packages${NC}"
+echo -e "${green} ${beer} Cleaning up RubyGems Packages${NC}"
 gem cleanup
