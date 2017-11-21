@@ -20,20 +20,20 @@ else
 fi
 
 ################################################################################
-# Homebrew 
+# Homebrew
 ################################################################################
 # Checks for Homebrew, installs if we don't have it
 if test ! "$(which brew)"; then
   echo -e "${green}[+] Installing Homebrew${NC}"
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-else 
+else
   echo -e "${red} ${bones} Homebrew already installed${NC}"
 fi
 
 # Checks if the ENV is okay
 if [[ -n $(brew doctor | grep -o "Your system is ready to brew") ]]; then
   echo -e "${green}[+] Your system is ready to Brew${NC}"
-else 
+else
   brew doctor
 fi
 
@@ -47,7 +47,7 @@ brew_taps=(
   caskroom/versions
 )
 
-for (( i = 0 ; i < ${#brew_taps[@]} ; i++ )); do 
+for (( i = 0 ; i < ${#brew_taps[@]} ; i++ )); do
   echo -e "${green}[+] Tapping ${brew_taps[$i]} repository${NC}"
   `brew tap ${brew_taps[$i]}`
 done
@@ -59,24 +59,25 @@ brew_apps=(
   coreutils
   # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
   findutils
-  
+
   # Install more recent versions of some macOS tools.
   vim --with-override-system-vi
   grep
   openssh
   screen
-  
+
   nmap
   sqlmap
-  
+
   ack
   p7zip
-  
+
   # Caskroom repository
   caskroom/cask/brew-cask
 
   # SCM tools
   git
+  git-flow
 
   # Shell
   zsh
@@ -133,7 +134,7 @@ cask_apps=(
   spark
 )
 
-for (( i = 0 ; i < ${#cask_apps[@]} ; i++ )) do 
+for (( i = 0 ; i < ${#cask_apps[@]} ; i++ )) do
   echo -e "${green}[+] Installing ${cask_apps[$i]} ${NC}"
   brew cask install ${cask_apps[$i]}
 done
@@ -183,7 +184,7 @@ gems=(
 echo -e "${green}[+] Updating RubyGems${NC}"
 gem update --system
 
-for (( i = 0 ; i < ${#gems[@]} ; i++ )) do 
+for (( i = 0 ; i < ${#gems[@]} ; i++ )) do
   echo -e "${green}[+] Installing ${gems[$i]} gem${NC}"
   gem install ${gems[$i]}
 done
@@ -221,7 +222,7 @@ npm_apps=(
 echo -e "${green} ${beer} Updating NPM${NC}"
 npm install -g npm
 
-for (( i = 0 ; i < ${#npm_apps[@]} ; i++ )) do 
+for (( i = 0 ; i < ${#npm_apps[@]} ; i++ )) do
   echo -e "${green} ${beer} Installing ${npm_apps[$i]}${NC}"
   npm install -g ${npm_apps[$i]}
 done
