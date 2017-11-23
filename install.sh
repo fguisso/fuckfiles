@@ -131,7 +131,6 @@ cask_apps=(
   #kicad
   arduino
   appcleaner
-  spark
 )
 
 for (( i = 0 ; i < ${#cask_apps[@]} ; i++ )) do
