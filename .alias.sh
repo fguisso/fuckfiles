@@ -4,7 +4,7 @@ alias reload!="source ~/.zshrc && echo 'ZSH reloaded'"
 alias zshconfig="vim ~/.zshrc"
 alias projects="cd ~/Documents/Projects"
 alias nodec="node && clear"
-alias dotfiles="subl ~/dotfiles"
+alias dotfiles="vim ~/dotfiles"
 alias nodeup="nvm install node --reinstall-packages-from=node"
 alias pig="ping google.com"
 
