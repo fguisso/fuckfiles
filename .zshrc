@@ -5,7 +5,7 @@
 export ZSH="~/.oh-my-zsh"
 
 # Set name of the theme to load.
-ZSH_THEME="af-magic"
+ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -55,11 +55,10 @@ ZSH_THEME="af-magic"
 plugins=(
  git
  zsh-autosuggestions
- zsh-syntax-highlighting
- zsh-better-npm-completion
 )
 
 source $ZSH/oh-my-zsh.sh
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # User configuration
 
@@ -84,5 +83,5 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh
 
-source ~/dotfiles/.index.sh 
+source ~/.dotfiles/index.sh 
 

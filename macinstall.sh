@@ -66,6 +66,8 @@ brew_apps=(
   openssh
   screen
 
+  openvpn
+
   nmap
   sqlmap
 
@@ -77,16 +79,18 @@ brew_apps=(
 
   # SCM tools
   git
-  git-flow
+  #git-flow
 
   # Shell
   zsh
   zsh-completions
+  zsh-syntax-highlighting
 
   # Programing languages and SDKs
   # android-sdk
   # android-ndk
   python3
+  go
 
   # Version Managers
   nvm
@@ -98,7 +102,7 @@ brew_apps=(
   #redis
 
   # General tools
-  autoenv
+  #autoenv
   #htop
   httpie
   tree
@@ -111,26 +115,24 @@ done
 
 # Homebrew's Casks Apps
 cask_apps=(
-  dropbox
   keepassxc
   iterm2
-  sublime-text
   docker
-  google-chrome
-  firefox
-  virtualbox
-  virtualbox-extension-pack
-  #flux
-  vlc
   #ubersicht
-  limechat
   keka
-  skype
-  slack
-  spotify
   #kicad
   arduino
   appcleaner
+  adobe-creative-cloud
+  brave-browser
+  deezer
+  font-hack-nerd-font
+  ngrok
+  private-internet-access
+  riot
+  spectacle
+  syncthing
+  telegram
 )
 
 for (( i = 0 ; i < ${#cask_apps[@]} ; i++ )) do
