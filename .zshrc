@@ -6,8 +6,6 @@ export ZSH=$HOME/.oh-my-zsh
 
 export TERM="xterm-256color"
 
-eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -43,10 +41,8 @@ export EDITOR='vim'
 
 # Golang
 export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/go/bin
-# Go 1.x
-export GOROOT="/home/linuxbrew/.linuxbrew/opt/go@1.12/libexec"
-export PATH="$GOROOT/bin:$PATH"
+export PATH=$PATH:$HOME/go/bin/
+export PATH=$PATH:/usr/local/go/bin
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -54,14 +50,13 @@ export PATH="$GOROOT/bin:$PATH"
 # For a full list of active aliases, run `alias`.
 
 # Example aliases
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
+alias zshconf="vim ~/.zshrc"
+alias vimconf='vim ~/.vimrc'
+alias ohmyzsh="cd ~/.oh-my-zsh"
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias copy!='xclip -sel clip'
 alias dinspect='docker inspect -f "{{.Name}} {{.Path}} {{.Args}}" $(docker ps -a -q)'
 alias reload!='source ~/.zshrc'
-alias vimconfig='sudo vim ~/.vimrc'
-alias createtap='cd $(brew --repository homebrew/core)'
 
 dcrdtestnet () {
 	(
