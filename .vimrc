@@ -9,7 +9,6 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdtree'
 "Plug 'Yggdroot/indentLine'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
-Plug 'pangloss/vim-javascript'
 Plug 'sheerun/vim-polyglot'
 Plug 'mileszs/ack.vim'
 call plug#end()
@@ -30,7 +29,7 @@ let g:NERDTreeDirArrowExpandable='↠'
 let g:NERDTreeDirArrowCollapsible='↡'
 
 " Airline
-let g:airline_theme='dracula'
+let g:airline_theme='deus'
 let g:airline_powerline_fonts=1
 let g:airline_section_z='%{strftime("%-I:%M %p")}'
 let g:airline_section_warning=''

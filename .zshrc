@@ -50,13 +50,22 @@ export PATH=$PATH:/usr/local/go/bin
 # For a full list of active aliases, run `alias`.
 
 # Example aliases
-alias zshconf="vim ~/.zshrc"
+alias zshconf='vim ~/.zshrc'
 alias vimconf='vim ~/.vimrc'
-alias ohmyzsh="cd ~/.oh-my-zsh"
+alias ohmyzsh='cd ~/.oh-my-zsh'
 alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias copy!='xclip -sel clip'
 alias dinspect='docker inspect -f "{{.Name}} {{.Path}} {{.Args}}" $(docker ps -a -q)'
 alias reload!='source ~/.zshrc'
+alias lshort='git log --decorate --abbrev-commit --format=format:"%C(bold green)%ci%C(reset) %<(20,trunc)%C(dim white)%an%C(reset) %C(bold blue)%h%C(reset) %<(60,trunc)%C(white)%s%C(reset) %C(auto)%D%C(reset)"'
+
+dosh () {
+    sudo docker run --rm -it $1 /bin/bash
+}
+
+dsh () {
+    sudo docker run --rm -it $1 /bin/sh
+}
 
 dcrdtestnet () {
 	(
@@ -136,6 +145,10 @@ sidneilnd () {
     lndtestnet --rpclisten=127.0.0.1:10012 --restlisten=127.0.0.1:8082 --listen=127.0.0.1:9787 $@
 }
 
+sidneibetalnd () {
+    lndtestnet --datadir=~/.lnd/beta --rpclisten=127.0.0.1:10013 --restlisten=127.0.0.1:8084 --listen=127.0.0.1:9786 $@
+}
+
 sidneidcralpha () {
     dcrlndtestnet --datadir=~/.dcrlnd/alpha $@
 }
@@ -150,6 +163,13 @@ sidneidcrgama () {
 
 slnd () {
     lncli -n testnet --rpcserver=127.0.0.1:10012 $@
+}
+
+slbeta() {
+    (
+        cd ~/.lnd/beta/chain/bitcoin/testnet
+        lncli -n testnet --rpcserver=127.0.0.1:10013 --macaroonpath=admin.macaroon $@
+    )
 }
 
 sdalpha () {
@@ -172,3 +192,9 @@ sdgama () {
         dcrlncli -n testnet --rpcserver=127.0.0.1:10011 --macaroonpath=admin.macaroon $@
     )
 }
+
+PATH="/home/guisso/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/guisso/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/guisso/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/guisso/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/guisso/perl5"; export PERL_MM_OPT;
