@@ -69,10 +69,22 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR='vim'
 
+# GPG
+export GPG_TTY=$(tty)
+
 # Golang
 export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/go/bin/
 export PATH=$PATH:/usr/local/go/bin
+
+# TinyGo
+export PATH=$PATH:/usr/local/tinygo/bin
+
+# Node
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -87,144 +99,74 @@ alias gpsup='git push --set-upstream origin $(git_current_branch)'
 alias copy!='xclip -sel clip'
 alias dinspect='docker inspect -f "{{.Name}} {{.Path}} {{.Args}}" $(docker ps -a -q)'
 alias reload!='source ~/.zshrc'
-alias lshort='git log --decorate --abbrev-commit --format=format:"%C(bold green)%ci%C(reset) %<(20,trunc)%C(dim white)%an%C(reset) %C(bold blue)%h%C(reset) %<(60,trunc)%C(white)%s%C(reset) %C(auto)%D%C(reset)"'
+alias goliso='golangci-lint run --disable-all --deadline=10m --skip-files="mobile\\/.*generated\\.go" --enable=gofmt --enable=vet --enable=gosimple --enable=unconvert --enable=ineffassign --enable=unused'
 
 dosh () {
-    sudo docker run --rm -it $1 /bin/bash
+    docker run --rm -it $1 /bin/bash
 }
 
 dsh () {
-    sudo docker run --rm -it $1 /bin/sh
+    docker run --rm -it $1 /bin/sh
 }
 
-dcrdtestnet () {
-	(
-		cd ~/.dcrd
-		dcrd --configfile=dcrd-testnet.conf --miningaddr=TsSRqo2KHkAU8ejJNQDjQwspL7czFs2ggr6 --txindex
-	)
+ssed () {
+    fname=$1
+
+    sed -i "s/btcec\.NewPrivateKey(btcec\.S256())/secp256k1\.GeneratePrivateKey()/g" $fname
+    sed -i "s/github.com\/btcsuite\/btcd\/btcec/github.com\/decred\/dcrd\/dcrec\/secp256k1\/v2/g" $fname
+    sed -i "s/btcec/secp256k1/g" $fname
+    sed -i "s/SatPerKWeight/AtomPerKByte/g" $fname
+    sed -i "s/github.com\/lightningnetwork\/lnd/github.com\/decred\/dcrlnd/g" $fname
+    sed -i "s/*bbolt/*bolt/g" $fname
+    sed -i "s/SatoshiPerBitcoin/AtomsPerCoin/g" $fname
+    sed -i "s/github.com\/btcsuite\/btclog/github.com\/decred\/slog/g" $fname
+    sed -i "s/btclog/slog/g" $fname
+    sed -i "s/package lnd/package dcrlnd/g" $fname
+    sed -i "s/bbolt\./bolt\./g" $fname
+    sed -i "s/FeeForWeight/FeeForSize/g" $fname
+    sed -i "s/github.com\/btcsuite\/btcutil/github.com\/decred\/dcrd\/dcrutil\/v2/g" $fname
+    sed -i "s/github.com\/btcsuite\/btcd\/txscript/github.com\/decred\/dcrd\/txscript\/v2/g" $fname
+    sed -i "s/github.com\/btcsuite\/btcd\/chaincfg\/chainhash/github.com\/decred\/dcrd\/chaincfg\/chainhash/g" $fname
+    sed -i "s/github.com\/btcsuite\/btcd\/chaincfg/github.com\/decred\/dcrd\/chaincfg\/v2/g" $fname
+    sed -i "s/btcutil/dcrutil/g" $fname
+    sed -i "s/amtSat/amtAtoms/g" $fname
+    sed -i "s/commitWeight/commitSize/g" $fname
+    sed -i "s/feePerKw/feePerKB/g" $fname
+    sed -i "s/FeePerKw/FeePerKB/g" $fname
+    sed -i "s/AmtMsat/AmtMAtoms/g" $fname
+    sed -i "s/AmtMsat/AmtMAtoms/g" $fname
+    sed -i "s/TotalAmtMsat/TotalAmtMAtoms/g" $fname
+    sed -i "s/RelayFeePerKW/RelayFeePerKB/g" $fname
+    sed -i "s/TotalMsat/TotalMAtoms/g" $fname
+    sed -i "s/amtMsat/amtMAtoms/g" $fname
+    sed -i "s/AmtPaidSat/AmtPaidAtoms/g" $fname
+    sed -i "s/FeeBaseMsat/FeeBaseMAtoms/g" $fname
+    sed -i "s/MaxPaymentMSat/MaxPaymentMAtoms/g" $fname
+    sed -i "s/MilliSatoshi/MilliAtom/g" $fname
+    sed -i "s/SatPerKVByte/AtomPerKByte/g" $fname
+    sed -i "s/ToSatoshis/ToAtoms/g" $fname
+    sed -i "s/NewMSatFromSatoshis/NewMAtomsFromAtoms/g" $fname
+    sed -i "s/\"github.com\/coreos\/bbolt\"/bolt \"go\.etcd\.io\/bbolt\"/g" $fname
+    sed -i "s/github.com\/lightningnetwork\/lightning-onion/github.com\/decred\/lightning-onion\/v3/g" $fname
+    sed -i "s/github.com\/btcsuite\/btcd/github.com\/decred\/dcrd/g" $fname
 }
 
-dcrwallettestnet () {
-	(
-		cd ~/.dcrwallet
-		dcrwallet --configfile=dcrwallet-testnet.conf $@
-	)
+ased () {
+    modified=`git ls-files -m | uniq`
+    cached=`git diff --name-only --cached`
+
+    for f in $modified; do
+        echo "Processing modified $f"
+        ssed $f
+    done
+
+    for f in $cached; do
+        echo "Processing staged $f"
+        ssed $f
+    done
 }
 
-dcrlndtestnet () {
-	(
-		cd ~/.dcrlnd
-		dcrlnd --configfile=dcrlnd-testnet.conf $@
-	)
+gott () {
+    set -o pipefail
+    go test -tags="gofuzz remotewallet dev walletrpc debug routerrpc invoicesrpc autopilotrpc watchtowerrpc wtclientrpc signrpc" $* | tee unit.txt
 }
-
-dcrctltestnet () {
-	(
-		cd ~/.dcrctl
-		dcrctl --configfile=dcrctl-testnet.conf $@
-	)
-}
-
-dcrdsimnet () {
-	(
-		cd ~/.dcrd
-		dcrd --configfile=dcrd-simnet.conf --miningaddr=SsnFsbrQW4kWmHgaEWyXMoMdAXhW32jGjNF --txindex
-	)
-}
-
-dcrwalletsimnet () {
-	(
-		cd ~/.dcrwallet
-		dcrwallet --configfile=dcrwallet-simnet.conf $@
-	)
-}
-
-dcrctlsimnet () {
-	(
-		cd ~/.dcrctl
-		dcrctl --configfile=dcrctl-simnet.conf $@
-	)
-}
-
-dcrlndsimnet () {
-	(
-		cd ~/.dcrlnd
-		dcrlnd --configfile=dcrlnd-simnet.conf $@
-	)
-}
-btcdtestnet () {
-	(
-		cd ~/.btcd
-		btcd --configfile=btcd-testnet.conf --txindex
-	)
-}
-btcctltestnet () {
-	(
-		cd ~/.btcctl
-		btcctl --configfile=btcctl-testnet.conf $@
-	)
-}
-lndtestnet () {
-	(
-		cd ~/.lnd
-		lnd --configfile=lnd-testnet.conf $@
-	)
-}
-
-sidneilnd () {
-    lndtestnet --rpclisten=127.0.0.1:10012 --restlisten=127.0.0.1:8082 --listen=127.0.0.1:9787 $@
-}
-
-sidneibetalnd () {
-    lndtestnet --datadir=~/.lnd/beta --rpclisten=127.0.0.1:10013 --restlisten=127.0.0.1:8084 --listen=127.0.0.1:9786 $@
-}
-
-sidneidcralpha () {
-    dcrlndtestnet --datadir=~/.dcrlnd/alpha $@
-}
-
-sidneidcrbeta () {
-    dcrlndtestnet --datadir=~/.dcrlnd/beta --rpclisten=127.0.0.1:10010 --restlisten=127.0.0.1:8081 --listen=127.0.0.1:9999 $@
-}
-
-sidneidcrgama () {
-    dcrlndtestnet --datadir=~/.dcrlnd/gama --rpclisten=127.0.0.1:10011 --restlisten=127.0.0.1:8083 --listen=127.0.0.1:9988 $@
-}
-
-slnd () {
-    lncli -n testnet --rpcserver=127.0.0.1:10012 $@
-}
-
-slbeta() {
-    (
-        cd ~/.lnd/beta/chain/bitcoin/testnet
-        lncli -n testnet --rpcserver=127.0.0.1:10013 --macaroonpath=admin.macaroon $@
-    )
-}
-
-sdalpha () {
-    (
-        cd ~/.dcrlnd/alpha/chain/decred/testnet
-        dcrlncli -n testnet --macaroonpath=admin.macaroon $@
-    )
-}
-
-sdbeta () {
-    (
-        cd ~/.dcrlnd/beta/chain/decred/testnet
-        dcrlncli -n testnet --rpcserver=127.0.0.1:10010 --macaroonpath=admin.macaroon $@
-    )
-}
-
-sdgama () {
-    (
-        cd ~/.dcrlnd/gama/chain/decred/testnet
-        dcrlncli -n testnet --rpcserver=127.0.0.1:10011 --macaroonpath=admin.macaroon $@
-    )
-}
-
-PATH="/home/guisso/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/guisso/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/guisso/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/guisso/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/guisso/perl5"; export PERL_MM_OPT;

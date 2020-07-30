@@ -2,7 +2,6 @@
 call plug#begin()
 
 " Functionalities
-Plug 'tpope/vim-fugitive', {'on': 'Gstatus'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -11,15 +10,23 @@ Plug 'scrooloose/nerdtree'
 Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
 Plug 'sheerun/vim-polyglot'
 Plug 'mileszs/ack.vim'
+Plug 'mattn/emmet-vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'w0rp/ale'
+Plug 'airblade/vim-gitgutter'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 """ Other Config
+set colorcolumn=80
+highligh ColorColumn ctermbg=10 ctermfg=9
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab smarttab autoindent
 set ruler laststatus=2 showcmd showmode showmatch
 set incsearch ignorecase smartcase hlsearch
 set guicursor=n-v-c:block-Cursor
 set number
 set title
+set fillchars=""
 
 """ Plugins Config
 " Nerdtree
@@ -29,13 +36,28 @@ let g:NERDTreeDirArrowExpandable='↠'
 let g:NERDTreeDirArrowCollapsible='↡'
 
 " Airline
-let g:airline_theme='deus'
 let g:airline_powerline_fonts=1
-let g:airline_section_z='%{strftime("%-I:%M %p")}'
-let g:airline_section_warning=''
+"let g:airline_section_b='%{GitStatus()}'
+"let g:airline_section_warning=''
 
 " Polyglot
 let g:polyglot_disable = ['go']
+
+" Emmet
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
+
+" Ale Lint
+let g:ale_fixers = {
+\ 'javascript': ['eslint']
+\ }
+ 
+let g:ale_sign_error = '❌'
+let g:ale_sign_warning = '⚠️'
+let g:ale_fix_on_save = 1
+
+" GitGutter
+set signcolumn=yes
 
 """ Vim training
 nnoremap <up> <nop>
@@ -48,10 +70,17 @@ inoremap <left> <nop>
 inoremap <right> <nop>
 
 """ Splits
+set splitright                       " open a verticle split pane to the right
+set splitbelow                       " open a horizontal split plane below the current file
 nnoremap <C-j> <C-W><C-J>
 nnoremap <C-k> <C-W><C-K>
 nnoremap <C-l> <C-W><C-L>
 nnoremap <C-h> <C-W><C-H>
+
+""" Bakcups
+set backupdir=~/.vim/backup_files//  " set the directory that vim backup files will be saved to
+set directory=~/.vim/swap_files//    " set the directory that vim swap files will be saved to
+set undodir=~/.vim/undo_files//      " set the directory that vim undo files will be saved to
 
 """ Custom Mappings
 "nnoremap <C-j> :m .+1<CR>==
