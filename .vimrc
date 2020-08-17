@@ -15,6 +15,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'w0rp/ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdcommenter'
 call plug#end()
 
 """ Other Config
@@ -59,6 +60,14 @@ let g:ale_fix_on_save = 1
 " GitGutter
 set signcolumn=yes
 
+" Vim-go
+let g:go_list_height = 10
+
+" Commenter
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDToggleCheckAllLines = 1
+
 """ Vim training
 nnoremap <up> <nop>
 nnoremap <down> <nop>
@@ -70,17 +79,18 @@ inoremap <left> <nop>
 inoremap <right> <nop>
 
 """ Splits
-set splitright                       " open a verticle split pane to the right
-set splitbelow                       " open a horizontal split plane below the current file
+set splitright
+set splitbelow
+
 nnoremap <C-j> <C-W><C-J>
 nnoremap <C-k> <C-W><C-K>
 nnoremap <C-l> <C-W><C-L>
 nnoremap <C-h> <C-W><C-H>
 
 """ Bakcups
-set backupdir=~/.vim/backup_files//  " set the directory that vim backup files will be saved to
-set directory=~/.vim/swap_files//    " set the directory that vim swap files will be saved to
-set undodir=~/.vim/undo_files//      " set the directory that vim undo files will be saved to
+" set backupdir=~/.vim/backup_files//  " set the directory that vim backup files will be saved to
+" set directory=~/.vim/swap_files//    " set the directory that vim swap files will be saved to
+" set undodir=~/.vim/undo_files//      " set the directory that vim undo files will be saved to
 
 """ Custom Mappings
 "nnoremap <C-j> :m .+1<CR>==
