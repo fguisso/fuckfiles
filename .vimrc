@@ -49,9 +49,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
 " Ale Lint
-let g:ale_fixers = {
-\ 'javascript': ['eslint']
-\ }
+let g:ale_fixers = { 'javascript': ['eslint'] }
  
 let g:ale_sign_error = '❌'
 let g:ale_sign_warning = '⚠️'

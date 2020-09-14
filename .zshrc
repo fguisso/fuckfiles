@@ -1,3 +1,12 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export ZSH_THEME="powerlevel10k/powerlevel10k"
+
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -5,42 +14,6 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH=$HOME/.oh-my-zsh
 
 export TERM="xterm-256color"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
-
-# -------------------------POWERLEVEL----------------------
-POWERLEVEL9K_MODE=nerdfont-complete
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_RPROMPT_ON_NEWLINE=true
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=2
-POWERLEVEL9K_TIME_BACKGROUND=black
-POWERLEVEL9K_TIME_FOREGROUND=white
-POWERLEVEL9K_STATUS_VERBOSE=false
-POWERLEVEL9K_FOLDER_ICON=
-POWERLEVEL9K_VCS_UNTRACKED_ICON=●
-POWERLEVEL9K_VCS_UNSTAGED_ICON=±
-POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON=↓
-POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON=↑
-POWERLEVEL9K_VCS_COMMIT_ICON=' '
-POWERLEVEL9K_CUSTOM_GIT_PAIR_ICON="\uf7af"
-POWERLEVEL9K_BATTERY_CHARGING='yellow'
-POWERLEVEL9K_BATTERY_CHARGED='green'
-POWERLEVEL9K_BATTERY_DISCONNECTED='$DEFAULT_COLOR'
-POWERLEVEL9K_BATTERY_LOW_THRESHOLD='10'
-POWERLEVEL9K_BATTERY_LOW_COLOR='red'
-POWERLEVEL9K_BATTERY_ICON='\uf1e6 '
-POWERLEVEL9K_TIME_FORMAT="%D{\uf017 %H:%M \uf073 %d/%m/%y}"
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='> '
-POWERLEVEL9K_USER_DEFAULT_BACKGROUND=deeppink4
-POWERLEVEL9K_USER_DEFAULT_FOREGROUND=white
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(user ssh root_indicator dir dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status time battery)
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -80,10 +53,16 @@ export PATH=$PATH:/usr/local/go/bin
 # TinyGo
 export PATH=$PATH:/usr/local/tinygo/bin
 
+# DOTNET - Required
+export PATH="$PATH:/home/YOUR_USER_NAME/.dotnet/tools"
+# # DOTNET - Optional
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export ASPNETCORE_ENVIRONMENT=Development
+
 # Node
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -170,3 +149,7 @@ gott () {
     set -o pipefail
     go test -tags="gofuzz remotewallet dev walletrpc debug routerrpc invoicesrpc autopilotrpc watchtowerrpc wtclientrpc signrpc" $* | tee unit.txt
 }
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source /usr/share/nvm/init-nvm.sh
