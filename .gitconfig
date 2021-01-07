@@ -1,0 +1,12 @@
+[user]
+	name = fguisso
+	mail = fguisso@gmail.com
+	email = fguisso@gmail.com
+[core]
+	editor = vim
+[alias]
+    lshort = log --decorate --abbrev-commit --format=format:'%C(auto,blue)%>(12,trunc)%ad %<(20)%C(dim white)%an%C(reset) %C(magenta)% G? %C(bold blue)%h%C(reset) %<(60,trunc)%C(white)%s%C(reset) %C(auto)%D%C(reset)'
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    newdate = !"GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --no-edit --date \"$(date)\""
+[log]
+	date = relative

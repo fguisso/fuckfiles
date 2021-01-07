@@ -1,3 +1,9 @@
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
 """ Vim-Plug
 call plug#begin()
 
@@ -65,6 +71,9 @@ let g:go_list_height = 10
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDToggleCheckAllLines = 1
+
+" ctrl-p
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 """ Vim training
 nnoremap <up> <nop>

@@ -59,11 +59,13 @@ export PATH="$PATH:/home/YOUR_USER_NAME/.dotnet/tools"
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export ASPNETCORE_ENVIRONMENT=Development
 
-# Node
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Node/nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# yarn
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -79,6 +81,7 @@ alias copy!='xclip -sel clip'
 alias dinspect='docker inspect -f "{{.Name}} {{.Path}} {{.Args}}" $(docker ps -a -q)'
 alias reload!='source ~/.zshrc'
 alias goliso='golangci-lint run --disable-all --deadline=10m --skip-files="mobile\\/.*generated\\.go" --enable=gofmt --enable=vet --enable=gosimple --enable=unconvert --enable=ineffassign --enable=unused'
+alias setenv='export $(grep -v '^#' .env | xargs)'
 
 dosh () {
     docker run --rm -it $1 /bin/bash
@@ -152,4 +155,5 @@ gott () {
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-source /usr/share/nvm/init-nvm.sh
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
